@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using BubbleSort.Commands;
+using BubbleSort.Comparer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IComparerFactory, ComparerFactory>();
+
+builder.Services.AddTransient<IntBubbleSortCommand>();
+
+builder.Services.AddTransient<StringBubbleSortCommand>();
 
 var app = builder.Build();
 
@@ -38,18 +46,18 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
-app.MapGet("/sort", ([AsParameters] BubbleSort bubbleSort) =>
+app.MapPost("/sort-integers", ([FromBody] int[] input, IntBubbleSortCommand bubbleSort) =>
 {
-    return bubbleSort.Sort();
+    return bubbleSort.Sort(input);
 })
-.WithName("Sort")
+.WithName("Sort Int")
 .WithOpenApi();
 
-app.MapGet("/sort-strings", ([AsParameters] BubbleSortString bubbleSort) =>
+app.MapPost("/sort-strings", ([FromBody] string[] input, StringBubbleSortCommand bubbleSort) =>
 {
-    return bubbleSort.Sort();
+    return bubbleSort.Sort(input);
 })
-.WithName("SortString")
+.WithName("Sort String")
 .WithOpenApi();
 
 app.Run();

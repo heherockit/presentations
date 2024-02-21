@@ -27,10 +27,10 @@ public class BubbleSort
 
     private void Swap(int[] numbers, int index, int next)
     {
-        var tempVar = Numbers[index];
+        var tempVar = numbers[index];
 
-        Numbers[index] = Numbers[next];
+        numbers[index] = numbers[next];
 
-        Numbers[next] = tempVar;
+        numbers[next] = tempVar;
     }
 }

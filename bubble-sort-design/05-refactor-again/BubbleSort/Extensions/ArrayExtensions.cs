@@ -1,6 +1,6 @@
 public static class ArrayExtensions
 {
-    public static void Swap(this int[] numbers, int originIndex, int swapIndex)
+    public static void Swap<T>(this T[] numbers, int originIndex, int swapIndex)
     {
         var tempVar = numbers[originIndex];
 
